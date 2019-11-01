@@ -2,7 +2,7 @@
 Export scikit-learn model files to JSON for sharing or deploying predictive models with peace of mind.
 
 # Why sklearn-json?
-Other methods for exporting scikit-learn models require Pickle or Joblib (based on Pickle). Serializing model files with Pickle provide a simple attack vector for malicious users-- they give an attacker the ability to execute arbitrary code wherever the file is deserialized. (For an example see: https://www.smartfile.com/blog/python-pickle-security-problems-and-solutions/).
+Other methods for exporting scikit-learn models require Pickle or Joblib (based on Pickle). Serializing model files with Pickle provides a simple attack vector for malicious users-- they give an attacker the ability to execute arbitrary code wherever the file is deserialized. For an example see: https://www.smartfile.com/blog/python-pickle-security-problems-and-solutions/.
 
 sklearn-json is a safe and transparent solution for exporting scikit-learn model files.
 

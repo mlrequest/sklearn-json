@@ -10,7 +10,7 @@ setuptools.setup(
      description="A safe, transparent way to share and deploy scikit-learn models.",
      long_description=long_description,
      long_description_content_type="text/markdown",
-     url="https://github.com/mlrequest/mlrequest-python",
+     url="https://github.com/mlrequest/sklearn-json",
      packages=setuptools.find_packages(),
      install_requires=[
           'scikit-learn>=0.21.3',
