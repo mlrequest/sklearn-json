@@ -22,7 +22,7 @@ def serialize_linear_regressor(model):
 
 
 def deserialize_linear_regressor(model_dict):
-    model = LinearRegression(model_dict['params'])
+    model = LinearRegression(**model_dict['params'])
 
     model.coef_ = np.array(model_dict['coef_'])
     model.intercept_ = np.array(model_dict['intercept_'])
@@ -51,7 +51,7 @@ def serialize_lasso_regressor(model):
 
 
 def deserialize_lasso_regressor(model_dict):
-    model = Lasso(model_dict['params'])
+    model = Lasso(**model_dict['params'])
 
     model.coef_ = np.array(model_dict['coef_'])
 
@@ -87,7 +87,7 @@ def serialize_ridge_regressor(model):
 
 
 def deserialize_ridge_regressor(model_dict):
-    model = Ridge(model_dict['params'])
+    model = Ridge(**model_dict['params'])
 
     model.coef_ = np.array(model_dict['coef_'])
 
