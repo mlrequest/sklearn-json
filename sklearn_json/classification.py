@@ -28,7 +28,7 @@ def serialize_logistic_regression(model):
 
 
 def deserialize_logistic_regression(model_dict):
-    model = LogisticRegression(model_dict['params'])
+    model = LogisticRegression(**model_dict['params'])
 
     model.classes_ = np.array(model_dict['classes_'])
     model.coef_ = np.array(model_dict['coef_'])
@@ -53,7 +53,7 @@ def serialize_bernoulli_nb(model):
 
 
 def deserialize_bernoulli_nb(model_dict):
-    model = BernoulliNB(model_dict['params'])
+    model = BernoulliNB(**model_dict['params'])
 
     model.classes_ = np.array(model_dict['classes_'])
     model.class_count_ = np.array(model_dict['class_count_'])
@@ -80,7 +80,7 @@ def serialize_gaussian_nb(model):
 
 
 def deserialize_gaussian_nb(model_dict):
-    model = GaussianNB(model_dict['params'])
+    model = GaussianNB(**model_dict['params'])
 
     model.classes_ = np.array(model_dict['classes_'])
     model.class_count_ = np.array(model_dict['class_count_'])
@@ -107,7 +107,7 @@ def serialize_multinomial_nb(model):
 
 
 def deserialize_multinomial_nb(model_dict):
-    model = MultinomialNB(model_dict['params'])
+    model = MultinomialNB(**model_dict['params'])
 
     model.classes_ = np.array(model_dict['classes_'])
     model.class_count_ = np.array(model_dict['class_count_'])
@@ -134,7 +134,7 @@ def serialize_complement_nb(model):
 
 
 def deserialize_complement_nb(model_dict):
-    model = ComplementNB(model_dict['params'])
+    model = ComplementNB(**model_dict['params'])
 
     model.classes_ = np.array(model_dict['classes_'])
     model.class_count_ = np.array(model_dict['class_count_'])
