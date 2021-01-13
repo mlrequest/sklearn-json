@@ -1,10 +1,11 @@
 from sklearn.feature_extraction import DictVectorizer
+import numpy as np
 
 
 def serialize_dict_vectorizer(model):
     serialized_model = {
         'meta': 'dict-vectorizer',
-        'dtype': model.dtype,
+        'dtype': model.dtype.__name__,
         'separator': model.separator,
         'sparse': model.sparse,
         'sort': model.sort,
@@ -18,7 +19,7 @@ def serialize_dict_vectorizer(model):
 def deserialize_dict_vectorizer(model_dict):
     model = DictVectorizer()
 
-    model.dtype = model_dict['dtype']
+    model.dtype = np.dtype(model_dict['dtype']).type
     model.separator = model_dict['separator']
     model.sparse = model_dict['sparse']
     model.sort = model_dict['sort']
