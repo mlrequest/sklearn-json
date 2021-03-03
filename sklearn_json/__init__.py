@@ -10,6 +10,7 @@ from sklearn.linear_model import LinearRegression, Lasso, Ridge, ElasticNet
 from sklearn.neural_network import MLPClassifier, MLPRegressor
 from sklearn.svm import SVR
 from sklearn.cluster import KMeans, DBSCAN
+import json
 
 __version__ = '0.1.0'
 

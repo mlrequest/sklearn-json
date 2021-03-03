@@ -11,7 +11,7 @@ from sklearn.preprocessing import LabelBinarizer
 from sklearn_json import regression
 from sklearn_json import csr
 
-import json
+
 
 
 def serialize_logistic_regression(model):
