@@ -11,7 +11,7 @@ from sklearn.linear_model import LinearRegression, Lasso, Ridge, ElasticNet
 from sklearn.neural_network import MLPClassifier, MLPRegressor
 from sklearn.svm import SVR
 from sklearn.cluster import KMeans, DBSCAN
-from lightgbm import LGBMClassifier
+import lightgbm as lgbm
 import json
 
 __version__ = '0.1.0'
@@ -67,7 +67,7 @@ def serialize_model(model):
         return clst.serialize_kmeans_clustering(model)
     elif isinstance(model, DBSCAN):
         return clst.serialize_dbscan_clustering(model)
-    elif isinstance(model, LGBMClassifier):
+    elif isinstance(model, lgbm.LGBMClassifier):
         return clf.serialize_lgbm_classifier(model)
     else:
         raise ModellNotSupported('This model type is not currently supported. Email support@mlrequest.com to request a feature or report a bug.')
