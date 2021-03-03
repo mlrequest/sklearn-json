@@ -1,4 +1,4 @@
-from sklearn.linear_model import LinearRegression, Lasso, Ridge
+from sklearn.linear_model import LinearRegression, Lasso, Ridge, ElasticNet
 from sklearn.tree import DecisionTreeRegressor
 from sklearn.ensemble import RandomForestRegressor, GradientBoostingRegressor, _gb_losses
 from sklearn.neural_network import MLPRegressor
@@ -42,7 +42,27 @@ def serialize_lasso_regressor(model):
     else:
         serialized_model['n_iter_'] = model.n_iter_.tolist()
 
-    if isinstance(model.n_iter_, float):
+    if isinstance(model.intercept_, float):
+        serialized_model['intercept_'] = model.intercept_
+    else:
+        serialized_model['intercept_'] = model.intercept_.tolist()
+
+    return serialized_model
+
+def serialize_elastic_regressor(model):
+    serialized_model = {
+        'meta': 'elasticnet-regression',
+        'coef_': model.coef_.tolist(),
+        'alpha': model.alpha,
+        'params': model.get_params()
+    }
+
+    if isinstance(model.n_iter_, int):
+        serialized_model['n_iter_'] = model.n_iter_
+    else:
+        serialized_model['n_iter_'] = model.n_iter_.tolist()
+
+    if isinstance(model.intercept_, float):
         serialized_model['intercept_'] = model.intercept_
     else:
         serialized_model['intercept_'] = model.intercept_.tolist()
@@ -78,7 +98,7 @@ def serialize_ridge_regressor(model):
     if model.n_iter_:
         serialized_model['n_iter_'] = model.n_iter_.tolist()
 
-    if isinstance(model.n_iter_, float):
+    if isinstance(model.intercept_, float):
         serialized_model['intercept_'] = model.intercept_
     else:
         serialized_model['intercept_'] = model.intercept_.tolist()
