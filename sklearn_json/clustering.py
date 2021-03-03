@@ -14,6 +14,8 @@ def serialize_kmeans_clustering(model):
         'inertia_': model.inertia_,
         'n_features_in_': model.n_features_in_,
         'n_iter_': model.n_iter_,
+        '_n_threads': model._n_threads,
+        '_tol': model._tol,
         'params': model.get_params()
     }
 
@@ -28,5 +30,7 @@ def deserialize_kmeans_clustering(model_dict):
     model.inertia_ = model_dict['inertia_']
     model.n_features_in_ = model_dict['n_features_in_']
     model.n_iter_ = model_dict['n_iter_']
+    model._n_threads = model_dict['_n_threads']
+    model._tol = model_dict['_tol']
 
     return model
