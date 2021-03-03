@@ -23,7 +23,7 @@ pip install sklearn-json
 ## Example Usage
 
 ```python
-import sklearn_json as skljson
+import datrics_json as skljson
 from sklearn.ensemble import RandomForestClassifier
 
 model = RandomForestClassifier(n_estimators=10, max_depth=5, random_state=0).fit(X, y)

@@ -8,7 +8,7 @@ from sklearn.svm import SVR
 from numpy import testing
 import random
 import unittest
-import sklearn_json as skljson
+import datrics_json as skljson
 
 
 class TestAPI(unittest.TestCase):

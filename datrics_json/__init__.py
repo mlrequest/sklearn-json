@@ -1,6 +1,6 @@
-from sklearn_json import classification as clf
-from sklearn_json import regression as reg
-from sklearn_json import clustering as clst
+from datrics_json import classification as clf
+from datrics_json import regression as reg
+from datrics_json import clustering as clst
 from sklearn import svm, discriminant_analysis, dummy
 from sklearn.linear_model import LogisticRegression, Perceptron
 from sklearn.tree import DecisionTreeClassifier, DecisionTreeRegressor

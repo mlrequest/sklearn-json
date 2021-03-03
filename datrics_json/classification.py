@@ -8,8 +8,8 @@ from sklearn.ensemble import RandomForestClassifier, GradientBoostingClassifier,
 from sklearn.naive_bayes import BernoulliNB, GaussianNB, MultinomialNB, ComplementNB
 from sklearn.neural_network import MLPClassifier
 from sklearn.preprocessing import LabelBinarizer
-from sklearn_json import regression
-from sklearn_json import csr
+from datrics_json import regression
+from datrics_json import csr
 import lightgbm as lgbm
 
 class LGBM_Classifier_Booster():

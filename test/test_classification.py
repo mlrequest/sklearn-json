@@ -10,7 +10,7 @@ import unittest
 import random
 import numpy as np
 from numpy import testing
-import sklearn_json as skljson
+import datrics_json as skljson
 
 
 class TestAPI(unittest.TestCase):

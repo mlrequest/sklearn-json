@@ -5,7 +5,7 @@ from sklearn.neural_network import MLPRegressor
 from sklearn.tree._tree import Tree
 from sklearn.svm import SVR
 from sklearn import dummy
-from sklearn_json import csr
+from datrics_json import csr
 import numpy as np
 import scipy as sp
 

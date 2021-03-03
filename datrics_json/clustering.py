@@ -1,7 +1,7 @@
 from sklearn.cluster import KMeans, DBSCAN
 from sklearn.ensemble import IsolationForest
 from sklearn.tree._tree import Tree
-from sklearn_json import csr
+from datrics_json import csr
 import numpy as np
 import scipy as sp
 
