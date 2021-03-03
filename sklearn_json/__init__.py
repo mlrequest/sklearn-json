@@ -93,6 +93,8 @@ def deserialize_model(model_dict):
 
     elif model_dict['meta'] == 'linear-regression':
         return reg.deserialize_linear_regressor(model_dict)
+    elif model_dict['meta'] == 'elasticnet-regression':
+        return reg.deserialize_elastic_regressor(model_dict)
     elif model_dict['meta'] == 'lasso-regression':
         return reg.deserialize_lasso_regressor(model_dict)
     elif model_dict['meta'] == 'ridge-regression':

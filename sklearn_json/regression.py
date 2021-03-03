@@ -49,6 +49,24 @@ def serialize_lasso_regressor(model):
 
     return serialized_model
 
+
+def deserialize_lasso_regressor(model_dict):
+    model = Lasso(model_dict['params'])
+
+    model.coef_ = np.array(model_dict['coef_'])
+
+    if isinstance(model_dict['n_iter_'], list):
+        model.n_iter_ = np.array(model_dict['n_iter_'])
+    else:
+        model.n_iter_ = int(model_dict['n_iter_'])
+
+    if isinstance(model_dict['intercept_'], list):
+        model.intercept_ = np.array(model_dict['intercept_'])
+    else:
+        model.intercept_ = float(model_dict['intercept_'])
+
+    return model
+
 def serialize_elastic_regressor(model):
     serialized_model = {
         'meta': 'elasticnet-regression',
@@ -69,11 +87,11 @@ def serialize_elastic_regressor(model):
 
     return serialized_model
 
-
-def deserialize_lasso_regressor(model_dict):
-    model = Lasso(model_dict['params'])
+def deserialize_elastic_regressor(model_dict):
+    model = ElasticNet(model_dict['params'])
 
     model.coef_ = np.array(model_dict['coef_'])
+    model.alpha = np.array(model_dict['alpha']).astype(np.float)
 
     if isinstance(model_dict['n_iter_'], list):
         model.n_iter_ = np.array(model_dict['n_iter_'])
