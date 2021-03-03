@@ -69,6 +69,8 @@ def serialize_model(model):
         return clst.serialize_dbscan_clustering(model)
     elif isinstance(model, lgbm.LGBMClassifier):
         return clf.serialize_lgbm_classifier(model)
+    elif isinstance(model, lgbm.LGBMRegressor):
+        return reg.serialize_lgbm_regressor(model)
     else:
         raise ModellNotSupported('This model type is not currently supported. Email support@mlrequest.com to request a feature or report a bug.')
 
@@ -126,6 +128,8 @@ def deserialize_model(model_dict):
         return clf.deserialize_lgbm_classifier(model_dict)
     elif model_dict['meta'] in ['lgbm_binary', 'rf_binary']:
         return clf.deserialize_lgbm_binary(model_dict)
+    elif model_dict['meta'] in ['lgbm_regressor', 'rf_regressor']:
+        return reg.deserialize_lgbm_regressor(model_dict)
     else:
         raise ModellNotSupported('Model type not supported or corrupt JSON file. Email support@mlrequest.com to request a feature or report a bug.')
 

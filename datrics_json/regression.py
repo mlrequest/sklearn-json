@@ -8,6 +8,14 @@ from sklearn import dummy
 from datrics_json import csr
 import numpy as np
 import scipy as sp
+import lightgbm as lgbm
+
+class LGBM_Regression_Booster():
+    def __init__(self, booster=None):
+        self.booster = lgbm.Booster(model_str=booster)
+
+    def predict(self, X):
+        return self.booster.predict(X)
 
 
 def serialize_linear_regressor(model):
@@ -408,4 +416,23 @@ def deserialize_mlp_regressor(model_dict):
     model.n_outputs_ = model_dict['n_outputs_']
     model.out_activation_ = model_dict['out_activation_']
 
+    return model
+
+def serialize_lgbm_regressor(model):
+
+    if model.boosting == 'rf':
+        prefix = "rf"
+    else:
+        prefix = "lgbm"
+
+    serialized_model = {
+        "meta":prefix+'_'+'regressor',
+        "model":model.booster_.dump_model(),
+        "booster":model.booster_.model_to_string()
+    }
+
+    return serialized_model
+
+def deserialize_lgbm_regressor(model_dict):
+    model = LGBM_Regression_Booster(model_dict['booster'])
     return model
