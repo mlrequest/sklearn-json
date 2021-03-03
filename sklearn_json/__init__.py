@@ -1,5 +1,6 @@
 from sklearn_json import classification as clf
 from sklearn_json import regression as reg
+from sklearn_json import clustering as clst
 from sklearn import svm, discriminant_analysis, dummy
 from sklearn.linear_model import LogisticRegression, Perceptron
 from sklearn.tree import DecisionTreeClassifier, DecisionTreeRegressor
@@ -8,6 +9,7 @@ from sklearn.naive_bayes import BernoulliNB, GaussianNB, MultinomialNB, Compleme
 from sklearn.linear_model import LinearRegression, Lasso, Ridge, ElasticNet
 from sklearn.neural_network import MLPClassifier, MLPRegressor
 from sklearn.svm import SVR
+from sklearn.cluster import KMeans
 import json
 
 __version__ = '0.1.0'
@@ -59,6 +61,8 @@ def serialize_model(model):
         return reg.serialize_random_forest_regressor(model)
     elif isinstance(model, MLPRegressor):
         return reg.serialize_mlp_regressor(model)
+    elif isinstance(model, KMeans ):
+        return clst.serialize_kmeans_clustering(model)
     else:
         raise ModellNotSupported('This model type is not currently supported. Email support@mlrequest.com to request a feature or report a bug.')
 
@@ -90,7 +94,6 @@ def deserialize_model(model_dict):
         return clf.deserialize_random_forest(model_dict)
     elif model_dict['meta'] == 'mlp':
         return clf.deserialize_mlp(model_dict)
-
     elif model_dict['meta'] == 'linear-regression':
         return reg.deserialize_linear_regressor(model_dict)
     elif model_dict['meta'] == 'elasticnet-regression':
@@ -109,6 +112,8 @@ def deserialize_model(model_dict):
         return reg.deserialize_random_forest_regressor(model_dict)
     elif model_dict['meta'] == 'mlp-regression':
         return reg.deserialize_mlp_regressor(model_dict)
+    elif model_dict['meta'] == 'kmeans_clustering':
+        return clst.deserialize_kmeans_clustering(model_dict)
     else:
         raise ModellNotSupported('Model type not supported or corrupt JSON file. Email support@mlrequest.com to request a feature or report a bug.')
 
