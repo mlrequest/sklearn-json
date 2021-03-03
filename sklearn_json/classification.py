@@ -214,13 +214,14 @@ def serialize_svm(model):
         'class_weight_': model.class_weight_.tolist(),
         'classes_': model.classes_.tolist(),
         'support_': model.support_.tolist(),
-        'n_support_': model.n_support_.tolist(),
+        '_n_support': model.n_support_.tolist(),
         'intercept_': model.intercept_.tolist(),
-        'probA_': model.probA_.tolist(),
-        'probB_': model.probB_.tolist(),
+        '_probA': model.probA_.tolist(),
+        '_probB': model.probB_.tolist(),
         '_intercept_': model._intercept_.tolist(),
         'shape_fit_': model.shape_fit_,
         '_gamma': model._gamma,
+        '_sparse':model._sparse,
         'params': model.get_params()
     }
 
@@ -250,10 +251,11 @@ def deserialize_svm(model_dict):
     model.class_weight_ = np.array(model_dict['class_weight_']).astype(np.float64)
     model.classes_ = np.array(model_dict['classes_'])
     model.support_ = np.array(model_dict['support_']).astype(np.int32)
-    model.n_support_ = np.array(model_dict['n_support_']).astype(np.int32)
+    model._n_support = np.array(model_dict['n_support_']).astype(np.int32)
     model.intercept_ = np.array(model_dict['intercept_']).astype(np.float64)
-    model.probA_ = np.array(model_dict['probA_']).astype(np.float64)
-    model.probB_ = np.array(model_dict['probB_']).astype(np.float64)
+    model._probA = np.array(model_dict['probA_']).astype(np.float64)
+    model._probB = np.array(model_dict['probB_']).astype(np.float64)
+    model._sparse = model_dict['_sparse']
     model._intercept_ = np.array(model_dict['_intercept_']).astype(np.float64)
 
     if 'meta' in model_dict['support_vectors_'] and model_dict['support_vectors_']['meta'] == 'csr':
