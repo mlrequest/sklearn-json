@@ -10,9 +10,15 @@ from sklearn.neural_network import MLPClassifier
 from sklearn.preprocessing import LabelBinarizer
 from sklearn_json import regression
 from sklearn_json import csr
+import lightgbm as lgbm
 
+class LGBM_Classifier_Booster():
+    def __init__(self, classes=None, booster=None):
+        self.classes = np.array(classes)
+        self.booster = lgbm.Booster(model_str=booster)
 
-
+    def predict(self, X):
+        return self.classes[np.argmax(self.booster.predict(X))]
 
 def serialize_logistic_regression(model):
     serialized_model = {
@@ -555,3 +561,23 @@ def deserialize_mlp(model_dict):
     model.classes_ = np.array(model_dict['classes_'])
 
     return model
+
+
+def serialize_lgbm_classifier(model):
+    serialized_model = {
+        "meta":"lgbm_classifier",
+        "classes":model.classes_.tolist(),
+        "model":model.booster_.dump_model(),
+        "booster":model.booster_.model_to_string()
+    }
+
+    return serialized_model
+
+def deserialize_lgbm_classifier(model_dict):
+    model = LGBM_Classifier_Booster(model_dict['classes'], model_dict['booster'])
+    return model
+
+
+
+
+

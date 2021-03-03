@@ -4,12 +4,14 @@ from sklearn_json import clustering as clst
 from sklearn import svm, discriminant_analysis, dummy
 from sklearn.linear_model import LogisticRegression, Perceptron
 from sklearn.tree import DecisionTreeClassifier, DecisionTreeRegressor
-from sklearn.ensemble import RandomForestClassifier, GradientBoostingClassifier, RandomForestRegressor, GradientBoostingRegressor, _gb_losses
+from sklearn.ensemble import RandomForestClassifier, GradientBoostingClassifier, RandomForestRegressor, \
+    GradientBoostingRegressor, _gb_losses, IsolationForest
 from sklearn.naive_bayes import BernoulliNB, GaussianNB, MultinomialNB, ComplementNB
 from sklearn.linear_model import LinearRegression, Lasso, Ridge, ElasticNet
 from sklearn.neural_network import MLPClassifier, MLPRegressor
 from sklearn.svm import SVR
 from sklearn.cluster import KMeans, DBSCAN
+from lightgbm import LGBMClassifier
 import json
 
 __version__ = '0.1.0'
@@ -65,6 +67,8 @@ def serialize_model(model):
         return clst.serialize_kmeans_clustering(model)
     elif isinstance(model, DBSCAN):
         return clst.serialize_dbscan_clustering(model)
+    elif isinstance(model, LGBMClassifier):
+        return clf.serialize_lgbm_classifier(model)
     else:
         raise ModellNotSupported('This model type is not currently supported. Email support@mlrequest.com to request a feature or report a bug.')
 
@@ -118,6 +122,8 @@ def deserialize_model(model_dict):
         return clst.deserialize_kmeans_clustering(model_dict)
     elif model_dict['meta'] == 'dbscan_clustering':
         return clst.deserialize_dbscan_clustering(model_dict)
+    elif model_dict['meta'] == 'lgbm_classifier':
+        return clf.deserialize_lgbm_classifier(model_dict)
     else:
         raise ModellNotSupported('Model type not supported or corrupt JSON file. Email support@mlrequest.com to request a feature or report a bug.')
 
