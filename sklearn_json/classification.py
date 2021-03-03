@@ -250,7 +250,7 @@ def deserialize_svm(model_dict):
 
     model.class_weight_ = np.array(model_dict['class_weight_']).astype(np.float64)
     model.classes_ = np.array(model_dict['classes_'])
-    model._support = np.array(model_dict['support_']).astype(np.int32)
+    model._support = np.array(model_dict['_support']).astype(np.int32)
     model._n_support = np.array(model_dict['_n_support']).astype(np.int32)
     model.intercept_ = np.array(model_dict['intercept_']).astype(np.float64)
     model._probA = np.array(model_dict['_probA']).astype(np.float64)
