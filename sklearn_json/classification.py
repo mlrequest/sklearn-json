@@ -18,7 +18,7 @@ class LGBM_Classifier_Booster():
         self.booster = lgbm.Booster(model_str=booster)
 
     def predict(self, X):
-        return self.classes[np.argmax(self.booster.predict(X))]
+        return self.classes[np.argmax(self.booster.predict(X), axis=1)]
 
 def serialize_logistic_regression(model):
     serialized_model = {
