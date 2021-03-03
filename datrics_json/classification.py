@@ -585,7 +585,7 @@ def serialize_lgbm_classifier(model):
     else:
         suffix = "binary"
 
-    if model.booster == 'rf':
+    if model.boosting == 'rf':
         prefix = "rf"
     else:
         prefix = "lgbm"
