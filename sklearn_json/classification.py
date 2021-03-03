@@ -213,7 +213,7 @@ def serialize_svm(model):
         'meta': 'svm',
         'class_weight_': model.class_weight_.tolist(),
         'classes_': model.classes_.tolist(),
-        'support_': model.support_.tolist(),
+        '_support': model.support_.tolist(),
         '_n_support': model.n_support_.tolist(),
         'intercept_': model.intercept_.tolist(),
         '_probA': model.probA_.tolist(),
@@ -250,7 +250,7 @@ def deserialize_svm(model_dict):
 
     model.class_weight_ = np.array(model_dict['class_weight_']).astype(np.float64)
     model.classes_ = np.array(model_dict['classes_'])
-    model.support_ = np.array(model_dict['support_']).astype(np.int32)
+    model._support = np.array(model_dict['support_']).astype(np.int32)
     model._n_support = np.array(model_dict['_n_support']).astype(np.int32)
     model.intercept_ = np.array(model_dict['intercept_']).astype(np.float64)
     model._probA = np.array(model_dict['_probA']).astype(np.float64)
