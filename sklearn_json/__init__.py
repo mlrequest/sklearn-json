@@ -9,8 +9,7 @@ from sklearn.naive_bayes import BernoulliNB, GaussianNB, MultinomialNB, Compleme
 from sklearn.linear_model import LinearRegression, Lasso, Ridge, ElasticNet
 from sklearn.neural_network import MLPClassifier, MLPRegressor
 from sklearn.svm import SVR
-from sklearn.cluster import KMeans
-import json
+from sklearn.cluster import KMeans, DBSCAN
 
 __version__ = '0.1.0'
 
@@ -63,6 +62,8 @@ def serialize_model(model):
         return reg.serialize_mlp_regressor(model)
     elif isinstance(model, KMeans ):
         return clst.serialize_kmeans_clustering(model)
+    elif isinstance(model, DBSCAN):
+        return clst.serialize_dbscan_clustering(model)
     else:
         raise ModellNotSupported('This model type is not currently supported. Email support@mlrequest.com to request a feature or report a bug.')
 
@@ -114,6 +115,8 @@ def deserialize_model(model_dict):
         return reg.deserialize_mlp_regressor(model_dict)
     elif model_dict['meta'] == 'kmeans_clustering':
         return clst.deserialize_kmeans_clustering(model_dict)
+    elif model_dict['meta'] == 'dbscan_clustering':
+        return clst.deserialize_dbscan_clustering(model_dict)
     else:
         raise ModellNotSupported('Model type not supported or corrupt JSON file. Email support@mlrequest.com to request a feature or report a bug.')
 
