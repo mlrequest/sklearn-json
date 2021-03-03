@@ -122,8 +122,10 @@ def deserialize_model(model_dict):
         return clst.deserialize_kmeans_clustering(model_dict)
     elif model_dict['meta'] == 'dbscan_clustering':
         return clst.deserialize_dbscan_clustering(model_dict)
-    elif model_dict['meta'] == 'lgbm_classifier':
+    elif model_dict['meta'] == 'lgbm_multiclass':
         return clf.deserialize_lgbm_classifier(model_dict)
+    elif model_dict['meta'] == 'lgbm_binary':
+        return clf.deserialize_lgbm_binary(model_dict)
     else:
         raise ModellNotSupported('Model type not supported or corrupt JSON file. Email support@mlrequest.com to request a feature or report a bug.')
 

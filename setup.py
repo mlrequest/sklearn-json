@@ -3,7 +3,7 @@ with open("README.md", "r") as fh:
     long_description = fh.read()
 
 setuptools.setup(
-     name='sklearn-json',
+     name='datrics-json',
      version='0.1.0',
      author="Mathieu Rodrigue",
      author_email="support@mlrequest.com",
