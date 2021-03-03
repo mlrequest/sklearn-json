@@ -25,8 +25,8 @@ def deserialize_kmeans_clustering(model_dict):
 
     model.cluster_centers_ = np.array(model_dict['cluster_centers_'])
     model.labels_ = np.array(model_dict['labels_'])
-    model.inertia_ = model_dict['inertia_'].astype(np.float)
-    model.n_features_in_ = model_dict['n_features_in_'].astype(np.int)
-    model.n_iter_ = model_dict['n_iter_'].astype(np.int)
+    model.inertia_ = model_dict['inertia_']
+    model.n_features_in_ = model_dict['n_features_in_']
+    model.n_iter_ = model_dict['n_iter_']
 
     return model
