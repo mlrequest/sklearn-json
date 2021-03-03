@@ -16,6 +16,7 @@ def serialize_kmeans_clustering(model):
         'n_iter_': model.n_iter_,
         '_n_threads': model._n_threads,
         '_tol': model._tol,
+
         'params': model.get_params()
     }
 
@@ -44,6 +45,7 @@ def serialize_dbscan_clustering(model):
         'labels_': model.labels_.tolist(),
         'n_features_in_': model.n_features_in_,
         '_estimator_type': model._estimator_type,
+
         'params': model.get_params()
     }
 
@@ -52,6 +54,7 @@ def serialize_dbscan_clustering(model):
 
 def deserialize_dbscan_clustering(model_dict):
     model = DBSCAN(model_dict['params'])
+    model.eps = model_dict['params']['eps']
 
     model.components_ = np.array(model_dict['components_'])
     model.labels_ = np.array(model_dict['labels_'])
