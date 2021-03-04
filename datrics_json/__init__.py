@@ -5,7 +5,7 @@ from sklearn import svm, discriminant_analysis, dummy
 from sklearn.linear_model import LogisticRegression, Perceptron
 from sklearn.tree import DecisionTreeClassifier, DecisionTreeRegressor
 from sklearn.ensemble import RandomForestClassifier, GradientBoostingClassifier, RandomForestRegressor, \
-    GradientBoostingRegressor, _gb_losses, IsolationForest
+    GradientBoostingRegressor, IsolationForest, _gb_losses, IsolationForest
 from sklearn.naive_bayes import BernoulliNB, GaussianNB, MultinomialNB, ComplementNB
 from sklearn.linear_model import LinearRegression, Lasso, Ridge, ElasticNet
 from sklearn.neural_network import MLPClassifier, MLPRegressor
@@ -71,6 +71,8 @@ def serialize_model(model):
         return clf.serialize_lgbm_classifier(model)
     elif isinstance(model, lgbm.LGBMRegressor):
         return reg.serialize_lgbm_regressor(model)
+    elif isinstance(model, IsolationForest):
+        return clst.serialize_isolation_forest(model)
     else:
         raise ModellNotSupported('This model type is not currently supported. Email support@mlrequest.com to request a feature or report a bug.')
 
@@ -130,6 +132,8 @@ def deserialize_model(model_dict):
         return clf.deserialize_lgbm_binary(model_dict)
     elif model_dict['meta'] in ['lgbm_regressor', 'rf_regressor']:
         return reg.deserialize_lgbm_regressor(model_dict)
+    elif model_dict['meta'] == 'iforest_anomaly':
+        return clst.deserialize_iforest(model_dict)
     else:
         raise ModellNotSupported('Model type not supported or corrupt JSON file. Email support@mlrequest.com to request a feature or report a bug.')
 
