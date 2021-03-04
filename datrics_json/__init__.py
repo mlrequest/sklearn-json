@@ -4,8 +4,8 @@ from datrics_json import clustering as clst
 from sklearn import svm, discriminant_analysis, dummy
 from sklearn.linear_model import LogisticRegression, Perceptron
 from sklearn.tree import DecisionTreeClassifier, DecisionTreeRegressor
-from sklearn.ensemble import RandomForestClassifier, GradientBoostingClassifier, RandomForestRegressor, \
-    GradientBoostingRegressor, IsolationForest, _gb_losses, IsolationForest
+from sklearn.ensemble import IsolationForest, RandomForestClassifier, GradientBoostingClassifier, RandomForestRegressor, \
+    GradientBoostingRegressor, _gb_losses
 from sklearn.naive_bayes import BernoulliNB, GaussianNB, MultinomialNB, ComplementNB
 from sklearn.linear_model import LinearRegression, Lasso, Ridge, ElasticNet
 from sklearn.neural_network import MLPClassifier, MLPRegressor
@@ -44,7 +44,6 @@ def serialize_model(model):
         return clf.serialize_random_forest(model)
     elif isinstance(model, MLPClassifier):
         return clf.serialize_mlp(model)
-
     elif isinstance(model, LinearRegression):
         return reg.serialize_linear_regressor(model)
     elif isinstance(model, Lasso):
