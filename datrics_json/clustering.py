@@ -113,6 +113,7 @@ def serialize_iforest(model):
     estimators_features_ = list(map(lambda x: x.tolist(), estimators_features_))
 
     serialized_model = {
+        "meta": "iforest_anomaly",
         "params": params,
         "base_estimator_": base_estimator_,
         "estimators_features_": estimators_features_,
