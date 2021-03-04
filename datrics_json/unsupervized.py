@@ -6,7 +6,8 @@ import numpy as np
 import scipy as sp
 from datrics_json import classification as clf
 from datrics_json import regression as reg
-
+from dask_ml.preprocessing import OneHotEncoder, LabelEncoder
+import pandas as pd
 
 
 def serialize_kmeans_clustering(model):
@@ -155,5 +156,41 @@ def deserialize_iforest(model_dict):
                                          est_dict['n_outputs_'])
         new_estimators.append(est)
     model.estimators_ = new_estimators
+
+    return model
+
+
+def serialize_label_encoder(model):
+    serialized_model = {
+        "meta": "label_encoder",
+        "params": model.get_params(),
+        "classes_": model.classes_.tolist()}
+
+    return serialized_model
+
+
+def deserialize_label_encoder(model_dict):
+    model = LabelEncoder(**model_dict['params'])
+    model.classes_ = np.array(model_dict['classes_'])
+
+    return model
+
+def serialize_onehot_encoder(model):
+    categories_ = list(map(lambda x: x.tolist(), model.categories_))
+    serialized_model = {
+        "meta": "onehot_encoder",
+        "params": model.get_params(),
+        "categories_": categories_}
+
+    return serialized_model
+
+
+def deserialize_onehot_encoder(model_dict):
+    model = OneHotEncoder(**model_dict['params'])
+    categories_ = list(map(lambda x: np.array(x), model_dict['categories_']))
+    dtypes_ = list(map(lambda x: pd.CategoricalDtype(categories=x), model_dict['categories_']))
+
+    model.categories_ = categories_
+    model.dtypes_ = dtypes_
 
     return model

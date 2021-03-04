@@ -1,6 +1,6 @@
 from datrics_json import classification as clf
 from datrics_json import regression as reg
-from datrics_json import clustering as clst
+from datrics_json import unsupervized as clst
 from sklearn import svm, discriminant_analysis, dummy
 from sklearn.linear_model import LogisticRegression, Perceptron
 from sklearn.tree import DecisionTreeClassifier, DecisionTreeRegressor
@@ -13,6 +13,7 @@ from sklearn.svm import SVR
 from sklearn.cluster import KMeans, DBSCAN
 import lightgbm as lgbm
 import json
+from dask_ml.preprocessing import OneHotEncoder, LabelEncoder
 
 from sklearn.ensemble import IsolationForest
 
@@ -74,6 +75,10 @@ def serialize_model(model):
         return reg.serialize_lgbm_regressor(model)
     elif isinstance(model, IsolationForest):
         return clst.serialize_iforest(model)
+    elif isinstance(model, LabelEncoder):
+        return clst.serialize_label_encoder(model)
+    elif isinstance(model, OneHotEncoder):
+        return clst.serialize_onehot_encoder(model)
     else:
         raise ModellNotSupported('This model type is not currently supported. Email support@mlrequest.com to request a feature or report a bug.')
 
@@ -135,6 +140,10 @@ def deserialize_model(model_dict):
         return reg.deserialize_lgbm_regressor(model_dict)
     elif model_dict['meta'] == 'iforest_anomaly':
         return clst.deserialize_iforest(model_dict)
+    elif model_dict['meta'] == 'label_encoder':
+        return clst.deserialize_label_encoder(model_dict)
+    elif model_dict['meta'] == 'onehot_encoder':
+        return clst.deserialize_onehot_encoder(model_dict)
     else:
         raise ModellNotSupported('Model type not supported or corrupt JSON file. Email support@mlrequest.com to request a feature or report a bug.')
 
