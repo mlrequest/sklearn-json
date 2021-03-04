@@ -67,22 +67,6 @@ def deserialize_dbscan_clustering(model_dict):
 
     return model
 
-def serialize_isolation_forest(model):
-    serialized_model = {
-        'meta': 'kmeans_clustering',
-        'cluster_centers_': model.cluster_centers_.tolist(),
-        'labels_': model.labels_.tolist(),
-        'inertia_': model.inertia_,
-        'n_features_in_': model.n_features_in_,
-        'n_iter_': model.n_iter_,
-        '_n_threads': model._n_threads,
-        '_tol': model._tol,
-
-        'params': model.get_params()
-    }
-
-    return serialized_model
-
 
 def serialize_iforest(model):
     params = model.get_params()
