@@ -73,7 +73,7 @@ def serialize_model(model):
     elif isinstance(model, lgbm.LGBMRegressor):
         return reg.serialize_lgbm_regressor(model)
     elif isinstance(model, IsolationForest):
-        return clst.serialize_isolation_forest(model)
+        return clst.serialize_iforest(model)
     else:
         raise ModellNotSupported('This model type is not currently supported. Email support@mlrequest.com to request a feature or report a bug.')
 
