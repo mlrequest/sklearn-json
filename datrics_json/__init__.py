@@ -4,7 +4,7 @@ from datrics_json import clustering as clst
 from sklearn import svm, discriminant_analysis, dummy
 from sklearn.linear_model import LogisticRegression, Perceptron
 from sklearn.tree import DecisionTreeClassifier, DecisionTreeRegressor
-from sklearn.ensemble import IsolationForest, RandomForestClassifier, GradientBoostingClassifier, RandomForestRegressor, \
+from sklearn.ensemble import RandomForestClassifier, GradientBoostingClassifier, RandomForestRegressor, \
     GradientBoostingRegressor, _gb_losses
 from sklearn.naive_bayes import BernoulliNB, GaussianNB, MultinomialNB, ComplementNB
 from sklearn.linear_model import LinearRegression, Lasso, Ridge, ElasticNet
@@ -13,6 +13,8 @@ from sklearn.svm import SVR
 from sklearn.cluster import KMeans, DBSCAN
 import lightgbm as lgbm
 import json
+
+from sklearn.ensemble import IsolationForest
 
 __version__ = '0.1.0'
 
