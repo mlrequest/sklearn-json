@@ -13,7 +13,7 @@ from sklearn.svm import SVR
 from sklearn.cluster import KMeans, DBSCAN
 import lightgbm as lgbm
 import json
-from dask_ml.preprocessing import OneHotEncoder, LabelEncoder
+from dask_ml.preprocessing import OneHotEncoder, LabelEncoder, MinMaxScaler
 
 from sklearn.ensemble import IsolationForest
 
@@ -79,6 +79,8 @@ def serialize_model(model):
         return clst.serialize_label_encoder(model)
     elif isinstance(model, OneHotEncoder):
         return clst.serialize_onehot_encoder(model)
+    elif isinstance(model, MinMaxScaler):
+        return clst.serialize_min_max_scaler(model)
     else:
         raise ModellNotSupported('This model type is not currently supported. Email support@mlrequest.com to request a feature or report a bug.')
 
@@ -144,6 +146,8 @@ def deserialize_model(model_dict):
         return clst.deserialize_label_encoder(model_dict)
     elif model_dict['meta'] == 'onehot_encoder':
         return clst.deserialize_onehot_encoder(model_dict)
+    elif model_dict['meta'] == 'min_max_scaler':
+        return clst.deserialize_min_max_scaler(model_dict)
     else:
         raise ModellNotSupported('Model type not supported or corrupt JSON file. Email support@mlrequest.com to request a feature or report a bug.')
 

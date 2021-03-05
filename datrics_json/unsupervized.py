@@ -6,7 +6,7 @@ import numpy as np
 import scipy as sp
 from datrics_json import classification as clf
 from datrics_json import regression as reg
-from dask_ml.preprocessing import OneHotEncoder, LabelEncoder
+from dask_ml.preprocessing import OneHotEncoder, LabelEncoder, MinMaxScaler
 import pandas as pd
 
 
@@ -177,7 +177,6 @@ def deserialize_label_encoder(model_dict):
 
 def serialize_onehot_encoder(model):
     categories_ = list(map(lambda x: x.tolist(), model.categories_))
-    
 
     serialized_model = {
         "meta": "onehot_encoder",
@@ -196,5 +195,32 @@ def deserialize_onehot_encoder(model_dict):
 
     model.categories_ = categories_
     model.dtypes_ = dtypes_
+
+    return model
+
+def serialize_min_max_scaler(model):
+
+    serialized_model = {
+        "meta": "min_max_scaler",
+        "data_max_": model.data_max_,
+        "data_min_": model.data_min_,
+        "data_range_": model.data_range_,
+        "min_": model.min_,
+        "n_features_in_": model.n_features_in_,
+        "scale_index": list(model.scale_.index),
+        "scale_values": list(model.scale_.values),
+        "params": model.get_params()}
+
+    return serialized_model
+
+
+def deserialize_min_max_scaler(model_dict):
+    model = MinMaxScaler(**model_dict["params"])
+
+    model.data_max_ = model_dict["data_max_"]
+    model.data_min_ = model_dict["data_min_"]
+    model.data_range_ = model_dict["data_range_"]
+    model.min_ = model_dict["min_"]
+    model.scale_ = pd.Series(data=model_dict["scale_values"], index=model_dict["scale_index"])
 
     return model
