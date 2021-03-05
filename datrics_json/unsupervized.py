@@ -163,7 +163,7 @@ def deserialize_iforest(model_dict):
 
 def serialize_label_encoder(model):
     result = model.transform(dd.from_pandas(pd.Series(model.classes_), npartitions=1))
-    dict = {"values": model.classes_, "labels": result.compute().tolist()}
+    dict = {"values": model.classes_.tolist(), "labels": result.compute().tolist()}
 
     serialized_model = {
         "meta": "label_encoder",
