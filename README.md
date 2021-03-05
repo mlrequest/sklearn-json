@@ -36,45 +36,45 @@ sklearn-json requires scikit-learn >= 0.21.3.
 
 * Classification
     * **`sklearn.linear_model.LogisticRegression`**
-    * **`sklearn.linear_model.Perceptron`
-    * **`sklearn.discriminant_analysis.LinearDiscriminantAnalysis`
-    * **`sklearn.discriminant_analysis.QuadraticDiscriminantAnalysis`
-    * **`sklearn.svm.SVC`
-    * **`sklearn.ensemble.IsolationForest`
-    * **`sklearn.clustering.KMeans`
-    * **`sklearn.clustering.DBSCAN`
-    * *`sklearn.naive_bayes.GaussianNB`
-    * *`sklearn.naive_bayes.MultinomialNB`
-    * *`sklearn.naive_bayes.ComplementNB`
-    * *`sklearn.naive_bayes.BernoulliNB`
-    * *`sklearn.tree.DecisionTreeClassifier`
-    * *`sklearn.ensemble.RandomForestClassifier`
-    * *`sklearn.ensemble.GradientBoostingClassifier`
-    * *`sklearn.neural_network.MLPClassifier`
+    * **`sklearn.linear_model.Perceptron`**
+    * **`sklearn.discriminant_analysis.LinearDiscriminantAnalysis`**
+    * **`sklearn.discriminant_analysis.QuadraticDiscriminantAnalysis`**
+    * **`sklearn.svm.SVC`**
+    * **`sklearn.ensemble.IsolationForest`**
+    * **`sklearn.clustering.KMeans`**
+    * **`sklearn.clustering.DBSCAN`**
+    * *`sklearn.naive_bayes.GaussianNB`*
+    * *`sklearn.naive_bayes.MultinomialNB`*
+    * *`sklearn.naive_bayes.ComplementNB`*
+    * *`sklearn.naive_bayes.BernoulliNB`*
+    * *`sklearn.tree.DecisionTreeClassifier`*
+    * *`sklearn.ensemble.RandomForestClassifier`*
+    * *`sklearn.ensemble.GradientBoostingClassifier`*
+    * *`sklearn.neural_network.MLPClassifier`*
 
 * Regression
-    * **`sklearn.linear_model.LinearRegression`
-    * **`sklearn.linear_model.Ridge`
-    * **`sklearn.linear_model.Lasso`
-    * **`sklearn.linear_model.ElasticNet`
-    * *`sklearn.svm.SVR`
-    * *`sklearn.tree.DecisionTreeRegressor`
-    * *`sklearn.ensemble.RandomForestRegressor`
-    * *`sklearn.ensemble.GradientBoostingRegressor`
-    * *`sklearn.neural_network.MLPRegressor`
+    * **`sklearn.linear_model.LinearRegression`**
+    * **`sklearn.linear_model.Ridge`**
+    * **`sklearn.linear_model.Lasso`**
+    * **`sklearn.linear_model.ElasticNet`**
+    * *`sklearn.svm.SVR`*
+    * *`sklearn.tree.DecisionTreeRegressor`*
+    * *`sklearn.ensemble.RandomForestRegressor`*
+    * *`sklearn.ensemble.GradientBoostingRegressor`*
+    * *`sklearn.neural_network.MLPRegressor`*
 
 ## Supported lightGBM Models
-   * **`lightgbm.LGBMClassifier - binary - Gradient Boosting Trees`
-   * **`lightgbm.LGBMClassifier - multiclass - Gradient Boosting Trees`
-   * **`lightgbm.LGBMClassifier - binary - Random Forest`
-   * **`lightgbm.LGBMClassifier - multiclass - Random Forest`
-   * **`lightgbm.LGBMRegressor - Gradient Boosting Trees`
-   * **`lightgbm.LGBMRegressor - Random Forest`
+   * **`lightgbm.LGBMClassifier - binary - Gradient Boosting Trees`**
+   * **`lightgbm.LGBMClassifier - multiclass - Gradient Boosting Trees`**
+   * **`lightgbm.LGBMClassifier - binary - Random Forest`**
+   * **`lightgbm.LGBMClassifier - multiclass - Random Forest`**
+   * **`lightgbm.LGBMRegressor - Gradient Boosting Trees`**
+   * **`lightgbm.LGBMRegressor - Random Forest`**
 
 ## Supported dask-ml Models
-   * **`dask-ml.preprocessing.LabelEncoder`
-   * **`dask-ml.preprocessing.OneHotEncoder`
-   * **`dask-ml.preprocessing.MinMaxScaler`
+   * **`dask-ml.preprocessing.LabelEncoder`**
+   * **`dask-ml.preprocessing.OneHotEncoder`**
+   * **`dask-ml.preprocessing.MinMaxScaler`**
 
 
 # Example
