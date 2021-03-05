@@ -1,35 +1,28 @@
-# sklearn-json
-Export scikit-learn model files to JSON for sharing or deploying predictive models with peace of mind.
+# model-json
+JSON serialization ans seserialization of scikit-learn, dask-ml and lightGBM model files, including transformers
 
-# Why sklearn-json?
-Other methods for exporting scikit-learn models require Pickle or Joblib (based on Pickle). Serializing model files with Pickle provides a simple attack vector for malicious users-- they give an attacker the ability to execute arbitrary code wherever the file is deserialized. For an example see: https://www.smartfile.com/blog/python-pickle-security-problems-and-solutions/.
+# Initial source
+The solution is the extension of https://github.com/mlrequest/sklearn-json library
 
-sklearn-json is a safe and transparent solution for exporting scikit-learn model files.
-
-### Safe
-Export model files to 100% JSON which cannot execute code on deserialization.
-
-### Transparent
-Model files are serialized in JSON (i.e., not binary), so you have the ability to see exactly what's inside.
 
 # Getting Started
 
-sklearn-json makes exporting model files to JSON simple.
+model-json makes exporting/importing the models and transformers files to/from JSON simple
 
 ## Install
 ```
-pip install sklearn-json
+pip install git+https://github.com/FireFlyTy/sklearn-json@th/test
 ```
 ## Example Usage
 
 ```python
-import datrics_json as skljson
-from sklearn.ensemble import RandomForestClassifier
+import datrics_json as datjson
+from sklearn.ensemble import IsolationForest
 
-model = RandomForestClassifier(n_estimators=10, max_depth=5, random_state=0).fit(X, y)
+model = IsolationForest().fit(X)
 
-skljson.to_json(model, file_name)
-deserialized_model = skljson.from_json(file_name)
+datjson.to_json(model, file_name)
+deserialized_model = datjson.from_json(file_name)
 
 deserialized_model.predict(X)
 ```
@@ -42,26 +35,47 @@ sklearn-json requires scikit-learn >= 0.21.3.
 ## Supported scikit-learn Models
 
 * Classification
-    * `sklearn.linear_model.LogisticRegression`
-    * `sklearn.linear_model.Perceptron`
-    * `sklearn.discriminant_analysis.LinearDiscriminantAnalysis`
-    * `sklearn.discriminant_analysis.QuadraticDiscriminantAnalysis`
-    * `sklearn.svm.SVC`
-    * `sklearn.naive_bayes.GaussianNB`
-    * `sklearn.naive_bayes.MultinomialNB`
-    * `sklearn.naive_bayes.ComplementNB`
-    * `sklearn.naive_bayes.BernoulliNB`
-    * `sklearn.tree.DecisionTreeClassifier`
-    * `sklearn.ensemble.RandomForestClassifier`
-    * `sklearn.ensemble.GradientBoostingClassifier`
-    * `sklearn.neural_network.MLPClassifier`
+    * **`sklearn.linear_model.LogisticRegression`
+    * **`sklearn.linear_model.Perceptron`
+    * **`sklearn.discriminant_analysis.LinearDiscriminantAnalysis`
+    * **`sklearn.discriminant_analysis.QuadraticDiscriminantAnalysis`
+    * **`sklearn.svm.SVC`
+    * **`sklearn.ensemble.IsolationForest`
+    * **`sklearn.clustering.KMeans`
+    * **`sklearn.clustering.DBSCAN`
+    * *`sklearn.naive_bayes.GaussianNB`
+    * *`sklearn.naive_bayes.MultinomialNB`
+    * *`sklearn.naive_bayes.ComplementNB`
+    * *`sklearn.naive_bayes.BernoulliNB`
+    * *`sklearn.tree.DecisionTreeClassifier`
+    * *`sklearn.ensemble.RandomForestClassifier`
+    * *`sklearn.ensemble.GradientBoostingClassifier`
+    * *`sklearn.neural_network.MLPClassifier`
 
 * Regression
-    * `sklearn.linear_model.LinearRegression`
-    * `sklearn.linear_model.Ridge`
-    * `sklearn.linear_model.Lasso`
-    * `sklearn.svm.SVR`
-    * `sklearn.tree.DecisionTreeRegressor`
-    * `sklearn.ensemble.RandomForestRegressor`
-    * `sklearn.ensemble.GradientBoostingRegressor`
-    * `sklearn.neural_network.MLPRegressor`
+    * **`sklearn.linear_model.LinearRegression`
+    * **`sklearn.linear_model.Ridge`
+    * **`sklearn.linear_model.Lasso`
+    * **`sklearn.linear_model.ElasticNet`
+    * *`sklearn.svm.SVR`
+    * *`sklearn.tree.DecisionTreeRegressor`
+    * *`sklearn.ensemble.RandomForestRegressor`
+    * *`sklearn.ensemble.GradientBoostingRegressor`
+    * *`sklearn.neural_network.MLPRegressor`
+
+## Supported lightGBM Models
+   * **`lightgbm.LGBMClassifier - binary - Gradient Boosting Trees`
+   * **`lightgbm.LGBMClassifier - multiclass - Gradient Boosting Trees`
+   * **`lightgbm.LGBMClassifier - binary - Random Forest`
+   * **`lightgbm.LGBMClassifier - multiclass - Random Forest`
+   * **`lightgbm.LGBMRegressor - Gradient Boosting Trees`
+   * **`lightgbm.LGBMRegressor - Random Forest`
+
+## Supported dask-ml Models
+   * **`dask-ml.preprocessing.LabelEncoder`
+   * **`dask-ml.preprocessing.OneHotEncoder`
+   * **`dask-ml.preprocessing.MinMaxScaler`
+
+
+# Example
+   * [I'm a relative reference to a repository file](../blob/master/LICENSE)
