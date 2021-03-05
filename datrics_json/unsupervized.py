@@ -178,6 +178,7 @@ def deserialize_label_encoder(model_dict):
 def serialize_onehot_encoder(model):
     categories_ = list(map(lambda x: x.tolist(), model.categories_))
     
+
     serialized_model = {
         "meta": "onehot_encoder",
         "params": model.get_params(),
