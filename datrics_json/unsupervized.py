@@ -202,10 +202,14 @@ def serialize_min_max_scaler(model):
 
     serialized_model = {
         "meta": "min_max_scaler",
-        "data_max_": model.data_max_,
-        "data_min_": model.data_min_,
-        "data_range_": model.data_range_,
-        "min_": model.min_,
+        "data_max_index": list(model.data_max_.index),
+        "data_max_values": list(model.data_max_.values),
+        "data_min_index": list(model.data_min_.index),
+        "data_min_values": list(model.data_min_.values),
+        "data_range_index": list(model.data_range_.index),
+        "data_range_values": list(model.data_range_.values),
+        "min_index": list(model.min_.index),
+        "min_values": list(model.min_.values),
         "n_features_in_": model.n_features_in_,
         "scale_index": list(model.scale_.index),
         "scale_values": list(model.scale_.values),
@@ -217,10 +221,12 @@ def serialize_min_max_scaler(model):
 def deserialize_min_max_scaler(model_dict):
     model = MinMaxScaler(**model_dict["params"])
 
-    model.data_max_ = model_dict["data_max_"]
-    model.data_min_ = model_dict["data_min_"]
-    model.data_range_ = model_dict["data_range_"]
-    model.min_ = model_dict["min_"]
+    model.data_max_ = pd.Series(data=model_dict["data_max_values"], index=model_dict["data_max_index"])
+    model.data_min_ = pd.Series(data=model_dict["data_min_values"], index=model_dict["data_min_index"])
+    model.data_range_ = pd.Series(data=model_dict["data_range_values"], index=model_dict["data_range_index"])
+    model.min_ = pd.Series(data=model_dict["min_values"], index=model_dict["min_index"])
     model.scale_ = pd.Series(data=model_dict["scale_values"], index=model_dict["scale_index"])
+
+    model.n_features_in_ = model_dict["model_dict"]
 
     return model
