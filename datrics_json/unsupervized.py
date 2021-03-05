@@ -227,6 +227,6 @@ def deserialize_min_max_scaler(model_dict):
     model.min_ = pd.Series(data=model_dict["min_values"], index=model_dict["min_index"])
     model.scale_ = pd.Series(data=model_dict["scale_values"], index=model_dict["scale_index"])
 
-    model.n_features_in_ = model_dict["model_dict"]
+    model.n_features_in_ = model_dict["n_features_in_"]
 
     return model
