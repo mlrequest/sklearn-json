@@ -8,6 +8,7 @@ from datrics_json import classification as clf
 from datrics_json import regression as reg
 from dask_ml.preprocessing import OneHotEncoder, LabelEncoder, MinMaxScaler
 import pandas as pd
+import dask.dataframe as dd
 
 
 def serialize_kmeans_clustering(model):
@@ -161,8 +162,12 @@ def deserialize_iforest(model_dict):
 
 
 def serialize_label_encoder(model):
+    result = model.transform(dd.from_pandas(pd.Series(model.classes_), npartitions=1))
+    dict = {"values": model.classes_, "labels": result.compute()}
+
     serialized_model = {
         "meta": "label_encoder",
+        "dictionary": dict,
         "params": model.get_params(),
         "classes_": model.classes_.tolist()}
 
@@ -178,8 +183,12 @@ def deserialize_label_encoder(model_dict):
 def serialize_onehot_encoder(model):
     categories_ = list(map(lambda x: x.tolist(), model.categories_))
 
+    result = model.transform(dd.from_pandas(pd.DataFrame({'data': model.categories_[0]}), npartitions=1))
+    dict = result.compute().to_dict()
+
     serialized_model = {
         "meta": "onehot_encoder",
+        "dictionary": dict,
         "params": model.get_params(),
         "categories_": categories_}
 
