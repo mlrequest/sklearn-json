@@ -35,7 +35,7 @@ sklearn-json requires scikit-learn >= 0.21.3.
 ## Supported scikit-learn Models
 
 * Classification
-    * **`sklearn.linear_model.LogisticRegression`
+    * **`sklearn.linear_model.LogisticRegression`**
     * **`sklearn.linear_model.Perceptron`
     * **`sklearn.discriminant_analysis.LinearDiscriminantAnalysis`
     * **`sklearn.discriminant_analysis.QuadraticDiscriminantAnalysis`
