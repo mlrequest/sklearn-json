@@ -43,3 +43,5 @@ build/
 dist/
 sklearn_json.egg-info/
 
+.venv/
+**/*cache*/
