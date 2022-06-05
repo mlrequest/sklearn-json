@@ -14,14 +14,27 @@ import sklearn_json as skljson
 
 
 class TestAPI(unittest.TestCase):
-
     def setUp(self):
-        self.X, self.y = make_classification(n_samples=50, n_features=3, n_classes=3, n_informative=3, n_redundant=0, random_state=0, shuffle=False)
+        self.X, self.y = make_classification(
+            n_samples=50,
+            n_features=3,
+            n_classes=3,
+            n_informative=3,
+            n_redundant=0,
+            random_state=0,
+            shuffle=False,
+        )
 
         feature_hasher = FeatureHasher(n_features=3)
         features = []
         for i in range(0, 100):
-            features.append({'a': random.randint(0, 2), 'b': random.randint(3, 5), 'c': random.randint(6, 8)})
+            features.append(
+                {
+                    "a": random.randint(0, 2),
+                    "b": random.randint(3, 5),
+                    "c": random.randint(6, 8),
+                }
+            )
         self.y_sparse = [random.randint(0, 2) for i in range(0, 100)]
         self.X_sparse = feature_hasher.transform(features)
 
@@ -97,14 +110,14 @@ class TestAPI(unittest.TestCase):
         self.check_model(BernoulliNB())
         self.check_sparse_model(BernoulliNB())
 
-        model_name = 'bernoulli-nb.json'
+        model_name = "bernoulli-nb.json"
         self.check_model_json(BernoulliNB(), model_name)
         self.check_sparse_model_json(BernoulliNB(), model_name)
 
     def test_guassian_nb(self):
         self.check_model(GaussianNB())
 
-        model_name = 'gaussian-nb.json'
+        model_name = "gaussian-nb.json"
         self.check_model_json(GaussianNB(), model_name)
 
         # No sklearn implementation for sparse matrix
@@ -113,14 +126,14 @@ class TestAPI(unittest.TestCase):
         self.check_model(MultinomialNB(), abs=True)
         self.check_sparse_model(MultinomialNB(), abs=True)
 
-        model_name = 'multinomial-nb.json'
+        model_name = "multinomial-nb.json"
         self.check_model_json(MultinomialNB(), model_name, abs=True)
         self.check_sparse_model_json(MultinomialNB(), model_name, abs=True)
 
     def test_complement_nb(self):
         self.check_model(ComplementNB(), abs=True)
 
-        model_name = 'complement-nb.json'
+        model_name = "complement-nb.json"
         self.check_model_json(ComplementNB(), model_name, abs=True)
 
         # No sklearn implementation for sparse matrix
@@ -129,31 +142,35 @@ class TestAPI(unittest.TestCase):
         self.check_model(LogisticRegression())
         self.check_sparse_model(LogisticRegression())
 
-        model_name = 'lr.json'
+        model_name = "lr.json"
         self.check_model_json(LogisticRegression(), model_name)
         self.check_sparse_model_json(LogisticRegression(), model_name)
 
     def test_lda(self):
         self.check_model(discriminant_analysis.LinearDiscriminantAnalysis())
 
-        model_name = 'lda.json'
-        self.check_model_json(discriminant_analysis.LinearDiscriminantAnalysis(), model_name)
+        model_name = "lda.json"
+        self.check_model_json(
+            discriminant_analysis.LinearDiscriminantAnalysis(), model_name
+        )
 
         # No sklearn implementation for sparse matrix
 
     def test_qda(self):
         self.check_model(discriminant_analysis.QuadraticDiscriminantAnalysis())
 
-        model_name = 'qda.json'
-        self.check_model_json(discriminant_analysis.QuadraticDiscriminantAnalysis(), model_name)
+        model_name = "qda.json"
+        self.check_model_json(
+            discriminant_analysis.QuadraticDiscriminantAnalysis(), model_name
+        )
 
         # No sklearn implementation for sparse matrix
 
     def test_svm(self):
-        self.check_model(svm.SVC(gamma=0.001, C=100., kernel='linear'))
-        self.check_sparse_model(svm.SVC(gamma=0.001, C=100., kernel='linear'))
+        self.check_model(svm.SVC(gamma=0.001, C=100.0, kernel="linear"))
+        self.check_sparse_model(svm.SVC(gamma=0.001, C=100.0, kernel="linear"))
 
-        model_name = 'svm.json'
+        model_name = "svm.json"
         self.check_model_json(svm.SVC(), model_name)
         self.check_sparse_model_json(svm.SVC(), model_name)
 
@@ -161,23 +178,29 @@ class TestAPI(unittest.TestCase):
         self.check_model(DecisionTreeClassifier())
         self.check_sparse_model(DecisionTreeClassifier())
 
-        model_name = 'dt.json'
+        model_name = "dt.json"
         self.check_model_json(DecisionTreeClassifier(), model_name)
         self.check_sparse_model_json(DecisionTreeClassifier(), model_name)
 
     def test_gradient_boosting(self):
         self.check_model(GradientBoostingClassifier(n_estimators=25, learning_rate=1.0))
-        self.check_sparse_model(GradientBoostingClassifier(n_estimators=25, learning_rate=1.0))
+        self.check_sparse_model(
+            GradientBoostingClassifier(n_estimators=25, learning_rate=1.0)
+        )
 
-        model_name = 'gb.json'
+        model_name = "gb.json"
         self.check_model_json(GradientBoostingClassifier(), model_name)
         self.check_sparse_model_json(GradientBoostingClassifier(), model_name)
 
     def test_random_forest(self):
-        self.check_model(RandomForestClassifier(n_estimators=10, max_depth=5, random_state=0))
-        self.check_sparse_model(RandomForestClassifier(n_estimators=10, max_depth=5, random_state=0))
+        self.check_model(
+            RandomForestClassifier(n_estimators=10, max_depth=5, random_state=0)
+        )
+        self.check_sparse_model(
+            RandomForestClassifier(n_estimators=10, max_depth=5, random_state=0)
+        )
 
-        model_name = 'rf.json'
+        model_name = "rf.json"
         self.check_model_json(RandomForestClassifier(), model_name)
         self.check_sparse_model_json(RandomForestClassifier(), model_name)
 
@@ -185,15 +208,32 @@ class TestAPI(unittest.TestCase):
         self.check_model(Perceptron())
         self.check_sparse_model(Perceptron())
 
-        model_name = 'perceptron.json'
+        model_name = "perceptron.json"
         self.check_model_json(Perceptron(), model_name)
         self.check_sparse_model_json(Perceptron(), model_name)
 
     def test_mlp(self):
-        self.check_model(MLPClassifier(solver='lbfgs', alpha=1e-5, hidden_layer_sizes=(5, 2), random_state=1))
-        self.check_sparse_model(MLPClassifier(solver='lbfgs', alpha=1e-5, hidden_layer_sizes=(5, 2), random_state=1))
+        self.check_model(
+            MLPClassifier(
+                solver="lbfgs", alpha=1e-5, hidden_layer_sizes=(5, 2), random_state=1
+            )
+        )
+        self.check_sparse_model(
+            MLPClassifier(
+                solver="lbfgs", alpha=1e-5, hidden_layer_sizes=(5, 2), random_state=1
+            )
+        )
 
-        model_name = 'mlp.json'
-        self.check_model_json(MLPClassifier(solver='lbfgs', alpha=1e-5, hidden_layer_sizes=(5, 2), random_state=1), model_name)
-        self.check_sparse_model_json(MLPClassifier(solver='lbfgs', alpha=1e-5, hidden_layer_sizes=(5, 2), random_state=1), model_name)
-
+        model_name = "mlp.json"
+        self.check_model_json(
+            MLPClassifier(
+                solver="lbfgs", alpha=1e-5, hidden_layer_sizes=(5, 2), random_state=1
+            ),
+            model_name,
+        )
+        self.check_sparse_model_json(
+            MLPClassifier(
+                solver="lbfgs", alpha=1e-5, hidden_layer_sizes=(5, 2), random_state=1
+            ),
+            model_name,
+        )
