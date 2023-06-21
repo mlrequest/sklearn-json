@@ -1,21 +1,19 @@
 import numpy as np
 import scipy as sp
-from sklearn import svm, discriminant_analysis, dummy
-from sklearn.linear_model import LogisticRegression, Perceptron
-from sklearn.tree import DecisionTreeClassifier
-from sklearn.tree._tree import Tree
+from sklearn import discriminant_analysis, dummy, svm
 from sklearn.ensemble import (
-    RandomForestClassifier,
     GradientBoostingClassifier,
+    RandomForestClassifier,
     _gb_losses,
 )
-from sklearn.naive_bayes import BernoulliNB, GaussianNB, MultinomialNB, ComplementNB
+from sklearn.linear_model import LogisticRegression, Perceptron
+from sklearn.naive_bayes import BernoulliNB, ComplementNB, GaussianNB, MultinomialNB
 from sklearn.neural_network import MLPClassifier
 from sklearn.preprocessing import LabelBinarizer
-from sklearn_json import regression
-from sklearn_json import csr
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.tree._tree import Tree
 
-import json
+from sklearn_json import csr, regression
 
 
 def serialize_logistic_regression(model):
@@ -459,21 +457,9 @@ def serialize_random_forest(model):
     serialized_model["params"] = model.get_params()
     serialized_model.pop("estimator")
     serialized_model.pop("estimator_")
-    # serialized_model['estimator'] = serialize_decision_tree(model.estimator)
-    # serialized_model['estimator_'] = serialized_model['estimator'].copy()
     serialized_model["estimators_"] = [
         serialize_decision_tree(decision_tree) for decision_tree in model.estimators_
     ]
-
-    # if 'oob_score_' in model.__dict__:
-    #    serialized_model['oob_score_'] = model.oob_score_
-    # if 'oob_decision_function_' in model.__dict__:
-    #    serialized_model['oob_decision_function_'] = model.oob_decision_function_.tolist()
-
-    # if isinstance(model.n_classes_, int):
-    #    serialized_model['n_classes_'] = model.n_classes_
-    # else:
-    #    serialized_model['n_classes_'] = model.n_classes_.tolist()
 
     return serialized_model
 

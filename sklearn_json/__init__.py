@@ -1,20 +1,26 @@
-from sklearn_json import classification as clf
-from sklearn_json import regression as reg
-from sklearn import svm, discriminant_analysis, dummy
-from sklearn.linear_model import LogisticRegression, Perceptron
-from sklearn.tree import DecisionTreeClassifier, DecisionTreeRegressor
+import json
+
+from sklearn import discriminant_analysis, svm
 from sklearn.ensemble import (
-    RandomForestClassifier,
     GradientBoostingClassifier,
-    RandomForestRegressor,
     GradientBoostingRegressor,
-    _gb_losses,
+    RandomForestClassifier,
+    RandomForestRegressor,
 )
-from sklearn.naive_bayes import BernoulliNB, GaussianNB, MultinomialNB, ComplementNB
-from sklearn.linear_model import LinearRegression, Lasso, Ridge
+from sklearn.linear_model import (
+    Lasso,
+    LinearRegression,
+    LogisticRegression,
+    Perceptron,
+    Ridge,
+)
+from sklearn.naive_bayes import BernoulliNB, ComplementNB, GaussianNB, MultinomialNB
 from sklearn.neural_network import MLPClassifier, MLPRegressor
 from sklearn.svm import SVR
-import json
+from sklearn.tree import DecisionTreeClassifier, DecisionTreeRegressor
+
+from sklearn_json import classification as clf
+from sklearn_json import regression as reg
 
 __version__ = "0.1.0"
 
@@ -64,9 +70,7 @@ def serialize_model(model):
     elif isinstance(model, MLPRegressor):
         return reg.serialize_mlp_regressor(model)
     else:
-        raise ModellNotSupported(
-            "This model type is not currently supported. Email support@mlrequest.com to request a feature or report a bug."
-        )
+        raise ModellNotSupported("This model type is not currently supported.")
 
 
 def deserialize_model(model_dict):
@@ -114,9 +118,7 @@ def deserialize_model(model_dict):
     elif model_dict["meta"] == "mlp-regression":
         return reg.deserialize_mlp_regressor(model_dict)
     else:
-        raise ModellNotSupported(
-            "Model type not supported or corrupt JSON file. Email support@mlrequest.com to request a feature or report a bug."
-        )
+        raise ModellNotSupported("Model type not supported or corrupt JSON file.")
 
 
 def to_dict(model):

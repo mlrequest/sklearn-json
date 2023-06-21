@@ -1,13 +1,15 @@
-from sklearn.datasets import make_regression
-from sklearn.feature_extraction import FeatureHasher
-from sklearn.linear_model import LinearRegression, Lasso, Ridge
-from sklearn.tree import DecisionTreeRegressor
-from sklearn.ensemble import RandomForestRegressor, GradientBoostingRegressor
-from sklearn.neural_network import MLPRegressor
-from sklearn.svm import SVR
-from numpy import testing
 import random
 import unittest
+
+from numpy import testing
+from sklearn.datasets import make_regression
+from sklearn.ensemble import GradientBoostingRegressor, RandomForestRegressor
+from sklearn.feature_extraction import FeatureHasher
+from sklearn.linear_model import Lasso, LinearRegression, Ridge
+from sklearn.neural_network import MLPRegressor
+from sklearn.svm import SVR
+from sklearn.tree import DecisionTreeRegressor
+
 import sklearn_json as skljson
 
 

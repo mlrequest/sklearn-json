@@ -1,15 +1,17 @@
-from sklearn.datasets import make_classification
-from sklearn.feature_extraction import FeatureHasher
-from sklearn import svm, discriminant_analysis
-from sklearn.linear_model import LogisticRegression, Perceptron
-from sklearn.ensemble import RandomForestClassifier, GradientBoostingClassifier
-from sklearn.naive_bayes import BernoulliNB, GaussianNB, MultinomialNB, ComplementNB
-from sklearn.neural_network import MLPClassifier
-from sklearn.tree import DecisionTreeClassifier
-import unittest
 import random
+import unittest
+
 import numpy as np
 from numpy import testing
+from sklearn import discriminant_analysis, svm
+from sklearn.datasets import make_classification
+from sklearn.ensemble import GradientBoostingClassifier, RandomForestClassifier
+from sklearn.feature_extraction import FeatureHasher
+from sklearn.linear_model import LogisticRegression, Perceptron
+from sklearn.naive_bayes import BernoulliNB, ComplementNB, GaussianNB, MultinomialNB
+from sklearn.neural_network import MLPClassifier
+from sklearn.tree import DecisionTreeClassifier
+
 import sklearn_json as skljson
 
 
@@ -80,7 +82,7 @@ class TestAPI(unittest.TestCase):
             model.fit(self.X, self.y)
 
         # When
-        serialized_model = skljson.to_json(model, model_name)
+        skljson.to_json(model, model_name)
         deserialized_model = skljson.from_json(model_name)
 
         # Then
@@ -97,7 +99,7 @@ class TestAPI(unittest.TestCase):
             model.fit(self.X_sparse, self.y_sparse)
 
         # When
-        serialized_model = skljson.to_json(model, model_name)
+        skljson.to_json(model, model_name)
         deserialized_model = skljson.from_json(model_name)
 
         # Then
