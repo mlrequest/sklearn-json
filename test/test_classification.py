@@ -1,5 +1,4 @@
 import random
-import unittest
 
 import numpy as np
 from numpy import testing
@@ -14,97 +13,96 @@ from sklearn.tree import DecisionTreeClassifier
 
 import sklearn_json as skljson
 
+X, y = make_classification(
+    n_samples=50,
+    n_features=3,
+    n_classes=3,
+    n_informative=3,
+    n_redundant=0,
+    random_state=0,
+    shuffle=False,
+)
 
-class TestAPI(unittest.TestCase):
-    def setUp(self):
-        self.X, self.y = make_classification(
-            n_samples=50,
-            n_features=3,
-            n_classes=3,
-            n_informative=3,
-            n_redundant=0,
-            random_state=0,
-            shuffle=False,
-        )
+feature_hasher = FeatureHasher(n_features=3)
+features = []
+for i in range(0, 100):
+    features.append(
+        {
+            "a": random.randint(0, 2),
+            "b": random.randint(3, 5),
+            "c": random.randint(6, 8),
+        }
+    )
+y_sparse = [random.randint(0, 2) for i in range(0, 100)]
+X_sparse = feature_hasher.transform(features)
 
-        feature_hasher = FeatureHasher(n_features=3)
-        features = []
-        for i in range(0, 100):
-            features.append(
-                {
-                    "a": random.randint(0, 2),
-                    "b": random.randint(3, 5),
-                    "c": random.randint(6, 8),
-                }
-            )
-        self.y_sparse = [random.randint(0, 2) for i in range(0, 100)]
-        self.X_sparse = feature_hasher.transform(features)
 
+class TestClassification:
     def check_model(self, model, abs=False):
         # Given
         if abs:
-            model.fit(np.absolute(self.X), self.y)
+            model.fit(np.absolute(X), y)
         else:
-            model.fit(self.X, self.y)
+            model.fit(X, y)
 
         # When
         serialized_model = skljson.to_dict(model)
         deserialized_model = skljson.from_dict(serialized_model)
 
         # Then
-        expected_predictions = model.predict(self.X)
-        actual_predictions = deserialized_model.predict(self.X)
+        expected_predictions = model.predict(X)
+        actual_predictions = deserialized_model.predict(X)
 
         testing.assert_array_equal(expected_predictions, actual_predictions)
 
     def check_sparse_model(self, model, abs=False):
         # Given
         if abs:
-            model.fit(np.absolute(self.X_sparse), self.y_sparse)
+            model.fit(np.absolute(X_sparse), y_sparse)
         else:
-            model.fit(self.X_sparse, self.y_sparse)
+            model.fit(X_sparse, y_sparse)
 
         # When
         serialized_model = skljson.to_dict(model)
         deserialized_model = skljson.from_dict(serialized_model)
 
         # Then
-        expected_predictions = model.predict(self.X)
-        actual_predictions = deserialized_model.predict(self.X)
+        expected_predictions = model.predict(X)
+        actual_predictions = deserialized_model.predict(X)
 
         testing.assert_array_equal(expected_predictions, actual_predictions)
 
     def check_model_json(self, model, model_name, abs=False):
         # Given
         if abs:
-            model.fit(np.absolute(self.X), self.y)
+            model.fit(np.absolute(X), y)
         else:
-            model.fit(self.X, self.y)
+            model.fit(X, y)
 
         # When
         skljson.to_json(model, model_name)
         deserialized_model = skljson.from_json(model_name)
 
         # Then
-        expected_predictions = model.predict(self.X)
-        actual_predictions = deserialized_model.predict(self.X)
+        expected_predictions = model.predict(X)
+        actual_predictions = deserialized_model.predict(X)
 
         testing.assert_array_equal(expected_predictions, actual_predictions)
 
     def check_sparse_model_json(self, model, model_name, abs=False):
         # Given
         if abs:
-            model.fit(np.absolute(self.X_sparse), self.y_sparse)
+            model.fit(np.absolute(X_sparse), y_sparse)
         else:
-            model.fit(self.X_sparse, self.y_sparse)
+            model.fit(X_sparse, y_sparse)
 
         # When
         skljson.to_json(model, model_name)
         deserialized_model = skljson.from_json(model_name)
 
         # Then
-        expected_predictions = model.predict(self.X)
-        actual_predictions = deserialized_model.predict(self.X)
+        expected_predictions = model.predict(X)
+        actual_predictions = deserialized_model.predict(X)
 
         testing.assert_array_equal(expected_predictions, actual_predictions)
 

@@ -43,3 +43,4 @@ build/
 dist/
 sklearn_json.egg-info/
 .ignore/*
+test.*

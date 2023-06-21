@@ -225,7 +225,7 @@ def serialize_decision_tree_regressor(model):
         "meta": "decision-tree-regression",
         "feature_importances_": model.feature_importances_.tolist(),
         "max_features_": model.max_features_,
-        "n_features_": model.n_features_,
+        "n_features_in_": model.n_features_in_,
         "n_outputs_": model.n_outputs_,
         "tree_": tree,
     }
@@ -245,11 +245,11 @@ def deserialize_decision_tree_regressor(model_dict):
     deserialized_decision_tree = DecisionTreeRegressor()
 
     deserialized_decision_tree.max_features_ = model_dict["max_features_"]
-    deserialized_decision_tree.n_features_ = model_dict["n_features_"]
+    deserialized_decision_tree.n_features_in_ = model_dict["n_features_in_"]
     deserialized_decision_tree.n_outputs_ = model_dict["n_outputs_"]
 
     tree = deserialize_tree(
-        model_dict["tree_"], model_dict["n_features_"], 1, model_dict["n_outputs_"]
+        model_dict["tree_"], model_dict["n_features_in_"], 1, model_dict["n_outputs_"]
     )
     deserialized_decision_tree.tree_ = tree
 
@@ -265,7 +265,7 @@ def serialize_gradient_boosting_regressor(model):
     serialized_model = {
         "meta": "gb-regression",
         "max_features_": model.max_features_,
-        "n_features_": model.n_features_,
+        "n_features_in_": model.n_features_in_,
         "train_score_": model.train_score_.tolist(),
         "params": model.get_params(),
         "estimators_shape": list(model.estimators_.shape),
@@ -308,7 +308,7 @@ def deserialize_gradient_boosting_regressor(model_dict):
 
     model.train_score_ = np.array(model_dict["train_score_"])
     model.max_features_ = model_dict["max_features_"]
-    model.n_features_ = model_dict["n_features_"]
+    model.n_features_in_ = model_dict["n_features_in_"]
     if model_dict["loss_"] == "ls":
         model.loss_ = _gb_losses.LeastSquaresError(1)
     elif model_dict["loss_"] == "lad":
@@ -334,7 +334,7 @@ def serialize_random_forest_regressor(model):
         "max_leaf_nodes": model.max_leaf_nodes,
         "min_impurity_decrease": model.min_impurity_decrease,
         "min_impurity_split": model.min_impurity_split,
-        "n_features_": model.n_features_,
+        "n_features_in_": model.n_features_in_,
         "n_outputs_": model.n_outputs_,
         "estimators_": [
             serialize_decision_tree_regressor(decision_tree)
@@ -359,7 +359,7 @@ def deserialize_random_forest_regressor(model_dict):
     ]
     model.estimators_ = np.array(estimators)
 
-    model.n_features_ = model_dict["n_features_"]
+    model.n_features_in_ = model_dict["n_features_in_"]
     model.n_outputs_ = model_dict["n_outputs_"]
     model.max_depth = model_dict["max_depth"]
     model.min_samples_split = model_dict["min_samples_split"]
