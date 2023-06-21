@@ -12,14 +12,21 @@ import sklearn_json as skljson
 
 
 class TestAPI(unittest.TestCase):
-
     def setUp(self):
-        self.X, self.y = make_regression(n_samples=50, n_features=3, n_informative=3, random_state=0, shuffle=False)
+        self.X, self.y = make_regression(
+            n_samples=50, n_features=3, n_informative=3, random_state=0, shuffle=False
+        )
 
         feature_hasher = FeatureHasher(n_features=3)
         features = []
         for i in range(0, 100):
-            features.append({'a': random.randint(0, 2), 'b': random.randint(3, 5), 'c': random.randint(6, 8)})
+            features.append(
+                {
+                    "a": random.randint(0, 2),
+                    "b": random.randint(3, 5),
+                    "c": random.randint(6, 8),
+                }
+            )
         self.y_sparse = [random.random() for i in range(0, 100)]
         self.X_sparse = feature_hasher.transform(features)
 
@@ -64,8 +71,8 @@ class TestAPI(unittest.TestCase):
         self.check_sparse_model(Ridge(alpha=0.5))
 
     def test_svr(self):
-        self.check_model(SVR(gamma='scale', C=1.0, epsilon=0.2))
-        self.check_sparse_model(SVR(gamma='scale', C=1.0, epsilon=0.2))
+        self.check_model(SVR(gamma="scale", C=1.0, epsilon=0.2))
+        self.check_sparse_model(SVR(gamma="scale", C=1.0, epsilon=0.2))
 
     def test_decision_tree_regression(self):
         self.check_model(DecisionTreeRegressor())
@@ -76,10 +83,13 @@ class TestAPI(unittest.TestCase):
         self.check_sparse_model(GradientBoostingRegressor())
 
     def test_random_forest_regression(self):
-        self.check_model(RandomForestRegressor(max_depth=2, random_state=0, n_estimators=100))
-        self.check_sparse_model(RandomForestRegressor(max_depth=2, random_state=0, n_estimators=100))
+        self.check_model(
+            RandomForestRegressor(max_depth=2, random_state=0, n_estimators=100)
+        )
+        self.check_sparse_model(
+            RandomForestRegressor(max_depth=2, random_state=0, n_estimators=100)
+        )
 
     def test_mlp_regression(self):
         self.check_model(MLPRegressor())
         self.check_sparse_model(MLPRegressor())
-
