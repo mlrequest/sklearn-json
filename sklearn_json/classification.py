@@ -395,11 +395,11 @@ def serialize_gradient_boosting(model):
     elif isinstance(model.init_, str):
         serialized_model["init_"] = model.init_
 
-    if isinstance(model.loss_, _gb_losses.BinomialDeviance):
+    if isinstance(model._loss, _gb_losses.BinomialDeviance):
         serialized_model["loss_"] = "deviance"
-    elif isinstance(model.loss_, _gb_losses.ExponentialLoss):
+    elif isinstance(model._loss, _gb_losses.ExponentialLoss):
         serialized_model["loss_"] = "exponential"
-    elif isinstance(model.loss_, _gb_losses.MultinomialDeviance):
+    elif isinstance(model._loss, _gb_losses.MultinomialDeviance):
         serialized_model["loss_"] = "multinomial"
 
     if "priors" in model.init_.__dict__:

@@ -27,7 +27,7 @@ def serialize_linear_regressor(model):
 
 
 def deserialize_linear_regressor(model_dict):
-    model = LinearRegression(model_dict["params"])
+    model = LinearRegression(**model_dict["params"])
 
     model.coef_ = np.array(model_dict["coef_"])
     model.intercept_ = np.array(model_dict["intercept_"])
@@ -110,17 +110,20 @@ def deserialize_ridge_regressor(model_dict):
 def serialize_svr(model):
     serialized_model = {
         "meta": "svr",
-        "class_weight_": model.class_weight_.tolist(),
-        "support_": model.support_.tolist(),
-        "n_support_": model.n_support_.tolist(),
-        "intercept_": model.intercept_.tolist(),
-        "probA_": model.probA_.tolist(),
-        "probB_": model.probB_.tolist(),
-        "_intercept_": model._intercept_.tolist(),
-        "shape_fit_": model.shape_fit_,
-        "_gamma": model._gamma,
         "params": model.get_params(),
     }
+    serialized_model.update(
+        {
+            k: (
+                v.tolist()
+                if isinstance(v, np.ndarray)
+                else int(v)
+                if isinstance(v, np.int64)
+                else v
+            )
+            for k, v in vars(model).items()
+        }
+    )
 
     if isinstance(model.support_vectors_, sp.sparse.csr_matrix):
         serialized_model["support_vectors_"] = csr.serialize_csr_matrix(
@@ -144,16 +147,13 @@ def serialize_svr(model):
 
 def deserialize_svr(model_dict):
     model = SVR(**model_dict["params"])
-    model.shape_fit_ = model_dict["shape_fit_"]
-    model._gamma = model_dict["_gamma"]
-
-    model.class_weight_ = np.array(model_dict["class_weight_"]).astype(np.float64)
-    model.support_ = np.array(model_dict["support_"]).astype(np.int32)
-    model.n_support_ = np.array(model_dict["n_support_"]).astype(np.int32)
-    model.intercept_ = np.array(model_dict["intercept_"]).astype(np.float64)
-    model.probA_ = np.array(model_dict["probA_"]).astype(np.float64)
-    model.probB_ = np.array(model_dict["probB_"]).astype(np.float64)
-    model._intercept_ = np.array(model_dict["_intercept_"]).astype(np.float64)
+    attrs = [k for k in model_dict if k not in model_dict["params"]]
+    for attr in attrs:
+        if isinstance(model_dict[attr], list):
+            attr_val = np.array(model_dict[attr])
+        else:
+            attr_val = model_dict[attr]
+        setattr(model, attr, attr_val)
 
     if (
         "meta" in model_dict["support_vectors_"]
@@ -181,6 +181,10 @@ def deserialize_svr(model_dict):
         model._dual_coef_ = csr.deserialize_csr_matrix(model_dict["_dual_coef_"])
     else:
         model._dual_coef_ = np.array(model_dict["_dual_coef_"]).astype(np.float64)
+
+    for k, v in vars(model).items():
+        if isinstance(v, np.ndarray) and v.dtype == np.int64:
+            setattr(model, k, v.astype(np.int32))
 
     return model
 
@@ -278,13 +282,13 @@ def serialize_gradient_boosting_regressor(model):
     elif isinstance(model.init_, str):
         serialized_model["init_"] = model.init_
 
-    if isinstance(model.loss_, _gb_losses.LeastSquaresError):
+    if isinstance(model._loss, _gb_losses.LeastSquaresError):
         serialized_model["loss_"] = "ls"
-    elif isinstance(model.loss_, _gb_losses.LeastAbsoluteError):
+    elif isinstance(model._loss, _gb_losses.LeastAbsoluteError):
         serialized_model["loss_"] = "lad"
-    elif isinstance(model.loss_, _gb_losses.HuberLossFunction):
+    elif isinstance(model._loss, _gb_losses.HuberLossFunction):
         serialized_model["loss_"] = "huber"
-    elif isinstance(model.loss_, _gb_losses.QuantileLossFunction):
+    elif isinstance(model._loss, _gb_losses.QuantileLossFunction):
         serialized_model["loss_"] = "quantile"
 
     if "priors" in model.init_.__dict__:
@@ -310,13 +314,13 @@ def deserialize_gradient_boosting_regressor(model_dict):
     model.max_features_ = model_dict["max_features_"]
     model.n_features_in_ = model_dict["n_features_in_"]
     if model_dict["loss_"] == "ls":
-        model.loss_ = _gb_losses.LeastSquaresError(1)
+        model._loss = _gb_losses.LeastSquaresError()
     elif model_dict["loss_"] == "lad":
-        model.loss_ = _gb_losses.LeastAbsoluteError(1)
+        model._loss = _gb_losses.LeastAbsoluteError()
     elif model_dict["loss_"] == "huber":
-        model.loss_ = _gb_losses.HuberLossFunction(1)
+        model._loss = _gb_losses.HuberLossFunction()
     elif model_dict["loss_"] == "quantile":
-        model.loss_ = _gb_losses.QuantileLossFunction(1)
+        model._loss = _gb_losses.QuantileLossFunction()
 
     if "priors" in model_dict:
         model.init_.priors = np.array(model_dict["priors"])
@@ -333,9 +337,8 @@ def serialize_random_forest_regressor(model):
         "max_features": model.max_features,
         "max_leaf_nodes": model.max_leaf_nodes,
         "min_impurity_decrease": model.min_impurity_decrease,
-        "min_impurity_split": model.min_impurity_split,
-        "n_features_in_": model.n_features_in_,
         "n_outputs_": model.n_outputs_,
+        "n_features_in_": model.n_features_in_,
         "estimators_": [
             serialize_decision_tree_regressor(decision_tree)
             for decision_tree in model.estimators_
@@ -358,7 +361,6 @@ def deserialize_random_forest_regressor(model_dict):
         for decision_tree in model_dict["estimators_"]
     ]
     model.estimators_ = np.array(estimators)
-
     model.n_features_in_ = model_dict["n_features_in_"]
     model.n_outputs_ = model_dict["n_outputs_"]
     model.max_depth = model_dict["max_depth"]
@@ -368,7 +370,6 @@ def deserialize_random_forest_regressor(model_dict):
     model.max_features = model_dict["max_features"]
     model.max_leaf_nodes = model_dict["max_leaf_nodes"]
     model.min_impurity_decrease = model_dict["min_impurity_decrease"]
-    model.min_impurity_split = model_dict["min_impurity_split"]
 
     if "oob_score_" in model_dict:
         model.oob_score_ = model_dict["oob_score_"]
