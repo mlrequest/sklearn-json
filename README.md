@@ -35,7 +35,7 @@ deserialized_model.predict(X)
 ```
 
 # Features
-The list of supported models is rapidly growing. If you have a request for a model or feature, please reach out to support@mlrequest.com.
+The list of supported models is rapidly growing. If you have a request for a model or feature, please reach out to aheldrich@yahoo.com.
 
 sklearn-json requires scikit-learn >= 0.21.3.
 
@@ -65,3 +65,7 @@ sklearn-json requires scikit-learn >= 0.21.3.
     * `sklearn.ensemble.RandomForestRegressor`
     * `sklearn.ensemble.GradientBoostingRegressor`
     * `sklearn.neural_network.MLPRegressor`
+
+## Upcoming
+
+* preproccessing
